@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <TaskForm/>
     <nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -7,6 +8,20 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+// import draggable from "vuedraggable";
+
+// Custom components
+import TaskForm from './components/TaskForm'
+
+export default {
+  name: 'App',
+  components: {
+    TaskForm
+  },
+}
+</script>
 
 <style>
 #app {
