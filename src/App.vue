@@ -10,7 +10,6 @@
 </template>
 
 <script>
-// import draggable from "vuedraggable";
 
 // Custom components
 import TaskForm from './components/TaskForm'

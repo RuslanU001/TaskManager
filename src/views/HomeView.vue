@@ -1,17 +1,18 @@
 <template>
   <div class="home">
-    <h1>Comming soon...</h1>
+    <!-- <h1>Comming soon...</h1> -->
+    <KanbanBoard/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-// import TaskForm from '@/components/ComponentName.vue'
+import KanbanBoard from '@/components/KanbanBoard.vue'
 
 export default {
   name: 'HomeView',
   components: {
-    // ComponentName
+    KanbanBoard
   }
 }
 </script>
