@@ -28,9 +28,9 @@ export default {
         idIncrement(state) {
             state.nextId++
         },
-        changeTaskStatus(state, newTaskOption) {
-            let task = state.tasks.find(task => task.id === newTaskOption.id)
-            task.status = newTaskOption.status
+        changeTaskStatus(state, {status, id}) {
+            let task = state.tasks.find(task => task.id === id)
+            task.status = status
         },
         deleteTaskById(state, taskId) {
             state.tasks = state.tasks.filter(t => t.id !== taskId)

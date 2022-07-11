@@ -52,29 +52,23 @@ export default {
     ...mapMutations(['changeTaskStatus']),
     setNew(evt) {
         if(evt.added) {
-            let task = {
-                id: evt.added.element.id,
-                status: "new"
-            }
-            this.changeTaskStatus(task)
+            const id = evt.added.element.id
+            const status = "new"
+            this.changeTaskStatus({status, id})
         }
     },
     setInProgress(evt) {
         if(evt.added) {            
-            let task = {
-                id: evt.added.element.id,
-                status: "inProgress"
-            }
-            this.changeTaskStatus(task)
+            const id = evt.added.element.id
+            const status = "inProgress"
+            this.changeTaskStatus({status, id})
         }
     },
     setDone(evt) {
         if(evt.added) {            
-            let task = {
-                id: evt.added.element.id,
-                status: "done"
-            }
-            this.changeTaskStatus(task)
+            const id = evt.added.element.id
+            const status = "done"
+            this.changeTaskStatus({status, id})
         }
     }
   }
