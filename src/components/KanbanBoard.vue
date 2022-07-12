@@ -2,17 +2,30 @@
     <div class="kanban">
         <h1>Kanban board</h1>
         <div class="kanban-list">
+
+            <!-- TRY ON -->
+
+            <!-- <div class="kanban-col" v-for="kanban in kanbans" :key="kanban.id">
+                <div class="kanban__title kanban-title">{{ kanban.title }}</div>
+                <draggable class="task-list" v-model="kanban.list" group="tasks"> 
+                    <div class="kanban__item task" v-for="task in kanban.list" :key="task.id">
+                        <div class="task-name">{{ task.name }}</div>
+                    </div>
+                </draggable>
+            </div> -->
+
+            <!-- TRY OFF -->
             <div class="kanban-col">
                 <div class="kanban__title kanban-title">New</div>
-                <draggable class="task-list" v-model="newTasks" @change="setNew" group="tasks"> 
+                <draggable class="task-list" v-model="newTasks" group="tasks"> 
                     <div class="kanban__item task" v-for="task in newTasks">
                         <div class="task-name">{{ task.name }}</div>
                     </div>
                 </draggable>
             </div>
             <div class="kanban-col">
-                <div class="kanban__title kanban-title">In progress</div>
-                <draggable class="task-list" v-model="inProgressTasks" @change="setInProgress" group="tasks">
+                <div class="kanban__title kanban-title">In Progress</div>
+                <draggable class="task-list" v-model="inProgressTasks" group="tasks">
                     <div class="kanban__item task" v-for="task in inProgressTasks">
                         <div class="task-name">{{ task.name }}</div>
                     </div>
@@ -20,14 +33,15 @@
             </div>
             <div class="kanban-col">
                 <div class="kanban__title kanban-title">Done</div>
-                <draggable class="task-list" v-model="doneTasks" @change="setDone" group="tasks">
+                <draggable class="task-list" v-model="doneTasks" group="tasks">
                     <div class="kanban__item task" v-for="task in doneTasks">
                         <div class="task-name">{{ task.name }}</div>
                     </div>
                 </draggable>
             </div>
+
+
         </div>
-    
     </div>
 </template>
 
@@ -46,28 +60,56 @@ export default {
       draggable
   },
   computed: {
-    ...mapGetters(['doneTasks', 'inProgressTasks', 'newTasks', 'allTasks']),
+    ...mapGetters(['allTasks']),
+
+    doneTasks: {
+        get() {
+            return this.allTasks.filter(t => t.status === "done")
+        },
+        set(changedList) {
+            this.statusSetter(changedList, 'done')
+        }
+    },
+    inProgressTasks: {
+        get() {
+            return this.allTasks.filter(t => t.status === "inProgress")
+        },
+        set(changedList) {
+            this.statusSetter(changedList, 'inProgress')
+        }
+    },
+    newTasks: {
+        get() {
+            return this.allTasks.filter(t => t.status === "new")
+        },
+        set(changedList) {
+            this.statusSetter(changedList, 'new')
+        }
+    },
+    kanbans() { 
+        return [{
+            id: 0,
+            list: this.newTasks,
+            title: 'New'
+        }, {
+            id: 1,
+            list: this.inProgressTasks,
+            title: 'In progress'
+        }, {
+            id: 2,
+            list: this.doneTasks,
+            title: 'Done'
+        },
+    ]},
+
   },
   methods: {
     ...mapMutations(['changeTaskStatus']),
-    setNew(evt) {
-        if(evt.added) {
-            const id = evt.added.element.id
-            const status = "new"
-            this.changeTaskStatus({status, id})
-        }
-    },
-    setInProgress(evt) {
-        if(evt.added) {            
-            const id = evt.added.element.id
-            const status = "inProgress"
-            this.changeTaskStatus({status, id})
-        }
-    },
-    setDone(evt) {
-        if(evt.added) {            
-            const id = evt.added.element.id
-            const status = "done"
+
+    statusSetter(changedList, status) {
+        const task = changedList.find(t => t.status !== status)
+        if(task) {
+            const id = task.id
             this.changeTaskStatus({status, id})
         }
     }
