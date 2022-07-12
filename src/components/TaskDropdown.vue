@@ -1,12 +1,10 @@
-
 <template>
     <div>
-        <!-- {{record}} -->
         <a-dropdown >
             <a-menu :record="record" slot="overlay" @click="handleMenuClick($event, record)">
-            <a-menu-item key="new">To new</a-menu-item>
-            <a-menu-item key="inProgress">To in progress</a-menu-item>
-            <a-menu-item key="done">To done</a-menu-item>
+            <a-menu-item v-if="record.status !== 'new'" key="new">To new</a-menu-item>
+            <a-menu-item v-if="record.status !== 'inProgress'" key="inProgress">To in progress</a-menu-item>
+            <a-menu-item v-if="record.status !== 'done'" key="done">To done</a-menu-item>
             <a-menu-item key="delete">Delete</a-menu-item>
             </a-menu>
             <a-button><a-icon type="bars" /></a-button>
@@ -18,12 +16,8 @@
 import { mapMutations } from "vuex"
 
 export default {
-    
     props: {
         record: Object,
-    },
-    data() {
-        return {}
     },
     methods: {
         ...mapMutations(['deleteTaskById', 'changeTaskStatus']),
@@ -41,8 +35,6 @@ export default {
                 break
                 case 'delete':
                     this.deleteTaskById(task.id)
-                break
-                default: 
                 break
             }
         }

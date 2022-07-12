@@ -1,11 +1,13 @@
 <template>
   <div id="app">
-    <TaskForm/>
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/table">Table</router-link>
-    </nav>
-    <router-view/>
+    <div class="container">
+      <TaskForm/>
+      <nav>
+        <router-link to="/">Home</router-link> |
+        <router-link to="/table">Table</router-link>
+      </nav>
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -29,6 +31,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  padding: 50px 0;
+}
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
 }
 
 nav {

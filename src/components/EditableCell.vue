@@ -1,58 +1,44 @@
 <template>
-      <div class="editable-cell">
-        <div v-if="editable" class="editable-cell-input-wrapper">
-          <a-select :value="text" style="width: 120px" :text="text" @change="handleChange" @pressEnter="check">
-            <a-select-option value="new">
-                new
-            </a-select-option>
-            <a-select-option value="inProgress">
-                inProgress
-            </a-select-option>
-            <a-select-option value="done">
-                done
-            </a-select-option>
-          </a-select>
-          <a-icon
-            type="check"
-            class="editable-cell-icon-check"
-            @click="check"
-          />
-        </div>
-        <div v-else class="editable-cell-text-wrapper">
-          {{ text || ' ' }}
-          <a-icon type="edit" class="editable-cell-icon" @click="edit" />
-        </div>
-      </div>
+  <div class="editable-cell">
+    <div v-if="editable" class="editable-cell-input-wrapper">
+      <a-select :value="text" @change="handleChange" @pressEnter="check" style="width: 120px">
+        <a-select-option
+          v-for="status in statuses"
+          v-if="text !== status"
+          :value="status"
+        >{{ status }}</a-select-option>
+      </a-select>
+      <a-icon type="check" class="editable-cell-icon-check" @click="check" />
+    </div>
+    <div v-else class="editable-cell-text-wrapper">
+      {{ text }}
+      <a-icon type="edit" class="editable-cell-icon" @click="edit" />
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-    props: {
-        text: String,
+  props: {
+    text: String,
+  },
+  data() {
+    return {
+      editable: false,
+      statuses: ['new', 'inProgress', 'done']
+    };
+  },
+  methods: {
+    handleChange(value) {
+      this.text = value;
     },
-    data() {
-        return {
-        value: this.text,
-        editable: false,
-        };
+    check() {
+      this.editable = false;
+      this.$emit('change', this.text);
     },
-    methods: {
-        handleChange(value) {
-            this.value = value;
-        },
-        check() {
-            this.editable = false;
-            this.$emit('change', this.value);
-        },
-        edit() {
-            this.editable = true;
-        },
+    edit() {
+      this.editable = true;
     },
-
+  },
 }
-
 </script>
-  
-
-<style scoped>
-</style>

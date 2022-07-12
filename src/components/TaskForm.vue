@@ -1,13 +1,11 @@
 <template>
   <form @submit.prevent="submit">
-      <input type="text" placeholder="Name" v-model="name">
-      <select name="status" id="status" v-model="status">
-          <option value="new" selected>New</option>
-          <option value="inProgress">In Progress</option>
-          <option value="done">Done</option>
-      </select>
-      <button type="submit">Add task</button>
-    </form>
+    <a-input v-model="name" placeholder="Name" class="input" />
+    <a-select v-model="status" class="select">
+      <a-select-option v-for="status in statuses" :value="status">{{ status }}</a-select-option>
+    </a-select>
+    <a-button @click="submit">Add task</a-button>
+  </form>
 </template>
 
 <script>
@@ -18,17 +16,14 @@ export default {
     return {
       name: '',
       status: 'new',
+      statuses: ['new', 'inProgress', 'done']
     }
   },
-  computed: {
-    ...mapGetters(['availableId'])
-  },
+  computed: mapGetters(['availableId']),
   methods: {
     ...mapMutations(['createTask', 'idIncrement']),
-
     submit() {
-      // save entry if fields isn't empty 
-      if(this.name && this.status) {
+      if (this.name && this.status) {
         this.createTask({
           id: this.availableId,
           name: this.name,
@@ -37,14 +32,26 @@ export default {
         })
         this.idIncrement()
       }
-      // reset fields data
       this.name = ''
-      // this.status = ''
     }
   },
 }
 </script>
 
 <style scoped>
-
+form {
+  max-width: 300px;
+  padding: 20px 20px;
+  margin: 0 auto;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+}
+.input {
+  display: block;
+  margin-bottom: 10px;
+}
+.select {
+  display: block;
+  margin-bottom: 20px;
+}
 </style>
