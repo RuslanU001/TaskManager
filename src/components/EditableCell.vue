@@ -1,7 +1,7 @@
 <template>
       <div class="editable-cell">
         <div v-if="editable" class="editable-cell-input-wrapper">
-          <a-select :value="value" @change="handleChange" @pressEnter="check">
+          <a-select :value="text" style="width: 120px" :text="text" @change="handleChange" @pressEnter="check">
             <a-select-option value="new">
                 new
             </a-select-option>
@@ -19,7 +19,7 @@
           />
         </div>
         <div v-else class="editable-cell-text-wrapper">
-          {{ value || ' ' }}
+          {{ text || ' ' }}
           <a-icon type="edit" class="editable-cell-icon" @click="edit" />
         </div>
       </div>
@@ -54,3 +54,5 @@ export default {
 </script>
   
 
+<style scoped>
+</style>

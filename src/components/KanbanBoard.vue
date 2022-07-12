@@ -12,6 +12,8 @@
                 >
                     <div class="kanban__item task" v-for="task in kanban.list" :key="task.id">
                         <div class="task-name">{{ task.name }}</div>
+                        <task-dropdown :record="task" />
+                        
                     </div>
                 </draggable>
             </div>
@@ -23,6 +25,7 @@
 import { mapGetters, mapMutations } from "vuex"
 
 import draggable from "vuedraggable";
+import TaskDropdown from "./TaskDropdown.vue";
 
 export default {
   data() {
@@ -30,7 +33,8 @@ export default {
     }
   },
   components: {
-      draggable
+      draggable,
+      TaskDropdown
   },
   computed: {
     ...mapGetters(['allTasks']),
@@ -102,6 +106,9 @@ export default {
         min-height: 200px;
     }
     .task {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         padding: 10px 20px;
         border: 1px solid #aaa;
         border-radius: 10px;

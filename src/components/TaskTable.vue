@@ -6,13 +6,7 @@
             <editable-cell :text="text" @change="onCellChange(record.id, 'status', $event)" />
           </template>
           <template slot="operation" slot-scope="text, record">
-            <a-popconfirm
-              v-if="allTasks.length"
-              title="Sure to delete?"
-              @confirm="() => onDelete(record.id)"
-            >
-              <a href="javascript:;">Delete</a>
-            </a-popconfirm>
+            <task-dropdown :record="record" />
           </template>
         </a-table>
     </div>
@@ -22,6 +16,8 @@
 import { mapGetters, mapMutations } from "vuex"
 
 import EditableCell from "./EditableCell"
+import TaskDropdown from "./TaskDropdown.vue"
+import moment from "moment"
 
 export default {
  data() {
@@ -29,13 +25,17 @@ export default {
       columns: [{
         title: "Name",
         dataIndex: "name",
+        width: "40%",
       }, {
         title: "Status",
         dataIndex: "status",
         scopedSlots: { customRender: 'status' },
+        width: "30%",
       }, {
         title: "Created at",
         dataIndex: "createdAt",
+        customRender: (record) => moment(record.createdAt).format('lll'),
+        width: "20%",
       }, {
         title: 'Operation',
         dataIndex: 'operation',
@@ -45,15 +45,13 @@ export default {
   },
   methods: {
     ...mapMutations(['deleteTaskById', 'changeTaskStatus']),
-    onDelete(id) {
-      this.deleteTaskById(id)
-    },
     onCellChange(id, dataIndex, status) {
       this.changeTaskStatus({status, id})
     },
   },
   components: {
-    EditableCell
+    EditableCell,
+    TaskDropdown
   },
   computed: mapGetters(['allTasks']),
   
