@@ -124,6 +124,7 @@ export default {
   border: 1px solid #e8e8e8;
   border-radius: 10px;
   background-color: #fff;
+  cursor: move;
 }
 </style>
 
