@@ -16,6 +16,8 @@ import {
   Select,
 } from 'ant-design-vue'
 
+import VTooltip from 'v-tooltip'
+
 Vue.use(Button)
 Vue.use(Menu)
 Vue.use(Icon)
@@ -23,6 +25,9 @@ Vue.use(Input)
 Vue.use(Table)
 Vue.use(Dropdown)
 Vue.use(Select)
+
+Vue.use(VTooltip)
+
 
 new Vue({
   router,
