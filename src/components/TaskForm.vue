@@ -2,8 +2,7 @@
   <form @submit.prevent="submit">
       <input type="text" placeholder="Name" v-model="name">
       <select name="status" id="status" v-model="status">
-          <option value="" selected disabled>Status</option>
-          <option value="new" >New</option>
+          <option value="new" selected>New</option>
           <option value="inProgress">In Progress</option>
           <option value="done">Done</option>
       </select>
@@ -18,7 +17,7 @@ export default {
   data() {
     return {
       name: '',
-      status: '',
+      status: 'new',
     }
   },
   computed: {
@@ -40,7 +39,7 @@ export default {
       }
       // reset fields data
       this.name = ''
-      this.status = ''
+      // this.status = ''
     }
   },
 }
