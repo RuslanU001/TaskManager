@@ -9,5 +9,12 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
     task
+  },
+  mutations: {
+    initialiseStore(state) {
+			if(localStorage.getItem('store')) {
+				this.replaceState(JSON.parse(localStorage.getItem('store')));
+			}
+		},
   }
 })

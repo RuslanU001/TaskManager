@@ -115,5 +115,14 @@ Vue.use(Result)
 new Vue({
   router,
   store,
+  beforeCreate() {
+		this.$store.commit('initialiseStore');
+	},
+  created() {
+    store.subscribe((mutation, state) => {
+      localStorage.setItem('store', JSON.stringify(state));
+    });
+  },
+
   render: h => h(App)
 }).$mount('#app')
