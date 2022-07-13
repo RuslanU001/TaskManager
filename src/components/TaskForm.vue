@@ -1,10 +1,10 @@
 <template>
   <form @submit.prevent="submit">
-    <a-input v-model="name" placeholder="Name" class="input" />
+    <a-input v-model="name" placeholder="Название" class="input" />
     <a-select v-model="status" class="select">
-      <a-select-option v-for="status in statuses" :value="status">{{ status }}</a-select-option>
+      <a-select-option v-for="status in statuses" :value="status">{{ translate[status] }}</a-select-option>
     </a-select>
-    <a-button @click="submit">Add task</a-button>
+    <a-button @click="submit">Добавить задачу</a-button>
   </form>
 </template>
 
@@ -16,7 +16,12 @@ export default {
     return {
       name: '',
       status: 'new',
-      statuses: ['new', 'inProgress', 'done']
+      statuses: ['new', 'inProgress', 'done'],
+      translate: {
+        'new': 'Новое',
+        'inProgress': 'В работе',
+        'done': 'Готово'
+      }
     }
   },
   computed: mapGetters(['availableId']),

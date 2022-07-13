@@ -1,7 +1,8 @@
 <template>
   <div class="kanban">
-    <h1>Kanban board</h1>
-    <div class="kanban-list">
+    <h1>Канбан-доска</h1>
+
+    <div v-if="hasData" class="kanban-list">
       <div :class="'kanban-col ' + kanban.class" v-for="kanban in kanbans" :key="kanban.id">
         <div class="kanban__title kanban-title">{{ kanban.title }}</div>
         <draggable
@@ -10,17 +11,15 @@
           group="tasks"
           @change="dragTask($event, kanban.status)"
         >
-          <div 
-          v-for="task in kanban.list" :key="task.id"
-          v-tooltip="dateFormating(task.createdAt)"
-          class="kanban__item task" 
-          >
+          <a-tooltip v-for="task in kanban.list" :key="task.id" class="kanban__item task">
+            <template slot="title">{{ moment(task.createdAt) }}</template>
             <div class="task-name">{{ task.name }}</div>
             <task-dropdown :record="task" />
-          </div>
+          </a-tooltip>
         </draggable>
       </div>
     </div>
+    <div v-else>Данных нет</div>
   </div>
 </template>
 
@@ -38,25 +37,28 @@ export default {
   },
   computed: {
     ...mapGetters(['allTasks']),
+    hasData() {
+      return this.allTasks.length
+    },
     kanbans() {
       return [{
         id: 0,
         list: this.allTasks.filter(t => t.status === "new"),
         status: 'new',
         class: 'kanban_new',
-        title: 'New'
+        title: 'Новое'
       }, {
         id: 1,
         list: this.allTasks.filter(t => t.status === "inProgress"),
         status: 'inProgress',
         class: 'kanban_in-progress',
-        title: 'In progress'
+        title: 'В работе'
       }, {
         id: 2,
         list: this.allTasks.filter(t => t.status === "done"),
         status: 'done',
         class: 'kanban_done',
-        title: 'Done'
+        title: 'Готово'
       },
       ]
     },
@@ -68,8 +70,12 @@ export default {
         this.changeTaskStatus({ status, id: task.added.element.id });
       }
     },
-    dateFormating(date) {
-      return moment(date).format('lll')
+    moment(date) {
+      const displayDate = moment(date)
+      const deltaDate = displayDate.clone().add(12, 'hour')
+      if (deltaDate > Date.now())
+        return displayDate.fromNow()
+      return displayDate.format('lll')
     },
   }
 }
@@ -125,113 +131,5 @@ export default {
   border-radius: 10px;
   background-color: #fff;
   cursor: move;
-}
-</style>
-
-<style>
-.tooltip {
-  display: block !important;
-  z-index: 100000;
-}
-
-.tooltip .tooltip-inner {
-  background: rgb(56, 56, 56);
-  color: white;
-  border-radius: 16px;
-  padding: 5px 10px 4px;
-}
-
-.tooltip .tooltip-arrow {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  position: absolute;
-  margin: 5px;
-  border-color: rgb(56, 56, 56);
-  z-index: 1;
-}
-
-.tooltip[x-placement^="top"] {
-  margin-bottom: 5px;
-}
-
-.tooltip[x-placement^="top"] .tooltip-arrow {
-  border-width: 5px 5px 0 5px;
-  border-left-color: transparent !important;
-  border-right-color: transparent !important;
-  border-bottom-color: transparent !important;
-  bottom: -5px;
-  left: calc(50% - 5px);
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.tooltip[x-placement^="bottom"] {
-  margin-top: 5px;
-}
-
-.tooltip[x-placement^="bottom"] .tooltip-arrow {
-  border-width: 0 5px 5px 5px;
-  border-left-color: transparent !important;
-  border-right-color: transparent !important;
-  border-top-color: transparent !important;
-  top: -5px;
-  left: calc(50% - 5px);
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.tooltip[x-placement^="right"] {
-  margin-left: 5px;
-}
-
-.tooltip[x-placement^="right"] .tooltip-arrow {
-  border-width: 5px 5px 5px 0;
-  border-left-color: transparent !important;
-  border-top-color: transparent !important;
-  border-bottom-color: transparent !important;
-  left: -5px;
-  top: calc(50% - 5px);
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.tooltip[x-placement^="left"] {
-  margin-right: 5px;
-}
-
-.tooltip[x-placement^="left"] .tooltip-arrow {
-  border-width: 5px 0 5px 5px;
-  border-top-color: transparent !important;
-  border-right-color: transparent !important;
-  border-bottom-color: transparent !important;
-  right: -5px;
-  top: calc(50% - 5px);
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.tooltip.popover .popover-inner {
-  background: #f9f9f9;
-  color: black;
-  padding: 24px;
-  border-radius: 5px;
-  box-shadow: 0 5px 30px rgba(black, .1);
-}
-
-.tooltip.popover .popover-arrow {
-  border-color: #f9f9f9;
-}
-
-.tooltip[aria-hidden='true'] {
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity .15s, visibility .15s;
-}
-
-.tooltip[aria-hidden='false'] {
-  visibility: visible;
-  opacity: 1;
-  transition: opacity .15s;
 }
 </style>

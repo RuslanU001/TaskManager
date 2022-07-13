@@ -1,17 +1,13 @@
 <template>
   <div class="editable-cell">
     <div v-if="editable" class="editable-cell-input-wrapper">
-      <a-select :value="text" @change="handleChange" @pressEnter="check" style="width: 120px">
-        <a-select-option
-          v-for="status in statuses"
-          v-if="text !== status"
-          :value="status"
-        >{{ status }}</a-select-option>
+      <a-select :value="value" @change="handleChange" @pressEnter="check" style="width: 120px">
+        <a-select-option v-for="status in statuses" :value="status">{{ translate[status] }}</a-select-option>
       </a-select>
       <a-icon type="check" class="editable-cell-icon-check" @click="check" />
     </div>
     <div v-else class="editable-cell-text-wrapper">
-      {{ text }}
+      {{ translate[text] }}
       <a-icon type="edit" class="editable-cell-icon" @click="edit" />
     </div>
   </div>
@@ -20,17 +16,29 @@
 <script>
 export default {
   props: {
-    text: String,
+    text: {
+      type: String,
+      require: true,
+    },
   },
   data() {
     return {
       editable: false,
-      statuses: ['new', 'inProgress', 'done']
+      statuses: ['new', 'inProgress', 'done'],
+      translate: {
+        'new': 'Новое',
+        'inProgress': 'В работе',
+        'done': 'Готово'
+      }
     };
+  },
+  computed: {
+    value: function () { return this.text }
+
   },
   methods: {
     handleChange(value) {
-      this.text = value;
+      this.$emit('change', value)
     },
     check() {
       this.editable = false;
@@ -41,4 +49,5 @@ export default {
     },
   },
 }
+
 </script>

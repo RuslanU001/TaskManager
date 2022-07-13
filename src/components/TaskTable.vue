@@ -1,7 +1,7 @@
 <template>
   <div class="table">
-    <h1>Tasks table</h1>
-    <a-table :dataSource="allTasks" :columns="columns" bordered>
+    <h1>Таблица задач</h1>
+    <a-table v-if="hasData" rowKey="id" :dataSource="allTasks" :columns="columns" bordered>
       <template slot="status" slot-scope="text, record">
         <editable-cell :text="text" @change="changeTaskStatus({ status: $event, id: record.id })" />
       </template>
@@ -9,6 +9,7 @@
         <task-dropdown :record="record" />
       </template>
     </a-table>
+    <div v-else>Данных нет</div>
   </div>
 </template>
 
@@ -22,21 +23,25 @@ export default {
   data() {
     return {
       columns: [{
-        title: "Name",
+        key: "name",
+        title: "Имя",
         dataIndex: "name",
         width: "40%",
       }, {
-        title: "Status",
+        key: "status",
+        title: "Статус",
         dataIndex: "status",
         scopedSlots: { customRender: 'status' },
         width: "30%",
       }, {
-        title: "Created at",
+        key: "createdAt",
+        title: "Дата создания",
         dataIndex: "createdAt",
         customRender: (record) => moment(record.createdAt).format('lll'),
         width: "20%",
       }, {
-        title: 'Operation',
+        key: "opearion",
+        title: 'Действия',
         dataIndex: 'operation',
         scopedSlots: { customRender: 'operation' },
       }],
@@ -46,7 +51,12 @@ export default {
     EditableCell,
     TaskDropdown
   },
-  computed: mapGetters(['allTasks']),
+  computed: {
+    ...mapGetters(['allTasks']),
+    hasData() {
+      return this.allTasks.length
+    },
+  },
   methods: mapMutations(['deleteTaskById', 'changeTaskStatus']),
 }
 </script>

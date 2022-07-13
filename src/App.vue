@@ -3,8 +3,8 @@
     <div class="container">
       <TaskForm/>
       <nav>
-        <router-link to="/">Home</router-link> |
-        <router-link to="/table">Table</router-link>
+        <router-link to="/">Главная</router-link> |
+        <router-link to="/table">Таблица</router-link>
       </nav>
       <router-view/>
     </div>
