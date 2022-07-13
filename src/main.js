@@ -8,6 +8,7 @@ Vue.config.productionTip = false
 // VueAnt
 import {
   Button,
+  Badge,
   Menu,
   Input,
   Icon,
@@ -26,6 +27,7 @@ Vue.use(Table)
 Vue.use(Dropdown)
 Vue.use(Select)
 Vue.use(Tooltip)
+Vue.use(Badge)
 
 import moment from "moment"
 moment.locale('ru');

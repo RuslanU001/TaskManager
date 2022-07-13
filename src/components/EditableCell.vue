@@ -7,7 +7,7 @@
       <a-icon type="check" class="editable-cell-icon-check" @click="check" />
     </div>
     <div v-else class="editable-cell-text-wrapper">
-      {{ translate[text] }}
+      <a-badge :color="statusColor[value]" :text="translate[value]" />
       <a-icon type="edit" class="editable-cell-icon" @click="edit" />
     </div>
   </div>
@@ -29,6 +29,11 @@ export default {
         'new': 'Новое',
         'inProgress': 'В работе',
         'done': 'Готово'
+      },
+      statusColor: {
+        'new': 'lime',
+        'inProgress': 'yellow',
+        'done': 'cyan',
       }
     };
   },
