@@ -31,9 +31,9 @@ export default {
         'done': 'Готово'
       },
       statusColor: {
-        'new': 'lime',
+        'new': 'cyan',
         'inProgress': 'yellow',
-        'done': 'cyan',
+        'done': 'lime',
       }
     };
   },

@@ -15,8 +15,14 @@ export default {
         createTask(state, newTask) {
             state.tasks.unshift(newTask)
         },
+
         idIncrement(state) {
             state.nextId++
+        },
+        changeTaskName(state, {id, newName}) {
+          console.log(id, newName)
+          const i = state.tasks.findIndex(task => task.id === id)
+          state.tasks[i].name = newName
         },
         changeTaskStatus(state, {status, id}) {
             const i = state.tasks.findIndex(task => task.id === id)

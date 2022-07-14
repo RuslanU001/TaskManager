@@ -100,13 +100,13 @@ export default {
   border-radius: 4px;
 }
 .kanban_new {
-  background-color: rgb(242, 255, 214);
-}
+  background-color: rgb(230, 248, 255);
+  }
 .kanban_in-progress {
   background-color: rgb(255, 251, 212);
 }
 .kanban_done {
-  background-color: rgb(230, 248, 255);
+  background-color: rgb(242, 255, 214);
 }
 .kanban__title {
   margin-bottom: 10px;
